@@ -4,6 +4,7 @@ members = [
   "hello_compute",
   "hello_crossterm",
   "hello_grpc",
+  "hello_permutation",
   "hello_self_response",
   "hello_world"
 ]

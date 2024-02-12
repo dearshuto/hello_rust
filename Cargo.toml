@@ -4,6 +4,7 @@ members = [
   "hello_compute",
   "hello_crossterm",
   "hello_customized_vec",
+  "hello_factorial",
   "hello_grpc",
   "hello_permutation",
   "hello_permutation_advanced",

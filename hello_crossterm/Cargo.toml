@@ -7,6 +7,9 @@ edition = "2021"
 
 [dependencies]
 crossterm = { version = "*", features = ["event-stream"] }
-futures-util = { version = "0.3", features = ["std", "async-await"], default-features = false }
+futures-util = { version = "0.3", features = [
+    "std",
+    "async-await",
+], default-features = false }
 tokio.workspace = true
 futures-timer = "*"

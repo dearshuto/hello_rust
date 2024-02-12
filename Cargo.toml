@@ -1,16 +1,16 @@
 [workspace]
 resolver = "2"
 members = [
-  "hello_compute",
-  "hello_crossterm",
-  "hello_customized_vec",
-  "hello_factorial",
-  "hello_grpc",
-  "hello_permutation",
-  "hello_permutation_advanced",
-  "hello_progress_bar",
-  "hello_self_response",
-  "hello_world"
+    "hello_compute",
+    "hello_crossterm",
+    "hello_customized_vec",
+    "hello_factorial",
+    "hello_grpc",
+    "hello_permutation",
+    "hello_permutation_advanced",
+    "hello_progress_bar",
+    "hello_self_response",
+    "hello_world",
 ]
 
 [workspace.dependencies]

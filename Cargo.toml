@@ -11,6 +11,7 @@ members = [
     "hello_progress_bar",
     "hello_self_response",
     "hello_world",
+    "hello_world", "hello_vulkan_on_ash",
 ]
 
 [workspace.dependencies]

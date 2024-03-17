@@ -3,10 +3,13 @@ use std::{
     ffi::{c_char, CStr},
 };
 
-use ash::{extensions::ext::DebugUtils, vk};
+use ash::{
+    extensions::ext::DebugUtils,
+    vk::{self, KhrGetPhysicalDeviceProperties2Fn},
+};
 
 fn main() {
-    let entry = unsafe { ash::Entry::load() }.unwrap();
+    let entry = unsafe { ash::Entry::new() }.unwrap();
     let app_info = vk::ApplicationInfo {
         api_version: vk::make_api_version(0, 1, 0, 0),
         ..Default::default()
@@ -20,16 +23,19 @@ fn main() {
     // for i in entry.enumerate_instance_layer_properties().unwrap() {
     //     println!("{:?}", i);
     // }
-
     let layers_names_raw: Vec<*const c_char> = layer_names
         .iter()
         .map(|raw_name| raw_name.as_ptr())
         .collect();
-    let binding = [DebugUtils::name().as_ptr()];
+    let binding = [
+        DebugUtils::name().as_ptr(),
+        KhrGetPhysicalDeviceProperties2Fn::name().as_ptr(),
+    ];
     let create_info = vk::InstanceCreateInfo::builder()
         .application_info(&app_info)
         .enabled_layer_names(&layers_names_raw)
         .enabled_extension_names(&binding);
+
     let instance = unsafe { entry.create_instance(&create_info, None) }.unwrap();
 
     let debug_info = vk::DebugUtilsMessengerCreateInfoEXT::builder()
@@ -71,7 +77,33 @@ fn main() {
         .queue_family_index(queue_family_index as u32)
         .queue_priorities(&[1.0])
         .build();
+
+    // 物理デバイスに VK_KHR_portability_subset が含まれていたらデバイス拡張に含める必要がある
+    let device_extensions = ["VK_KHR_portability_subset".as_ptr() as *const i8];
+    let required_device_extensions: Vec<*const i8> = device_extensions
+        .into_iter()
+        .filter(|extension| {
+            for physical_device in &physical_devices {
+                let properties =
+                    unsafe { instance.enumerate_device_extension_properties(*physical_device) }
+                        .unwrap();
+                for property in properties {
+                    let extension_name =
+                        unsafe { CStr::from_ptr(property.extension_name.as_ptr()) };
+                    let target = unsafe { CStr::from_ptr(*extension) };
+                    if extension_name == target {
+                        return true;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+
+            false
+        })
+        .collect();
     let device_create_info = vk::DeviceCreateInfo::builder()
+        .enabled_extension_names(&required_device_extensions)
         .queue_create_infos(std::slice::from_ref(&queue_create_info));
     let device =
         unsafe { instance.create_device(physical_device, &device_create_info, None) }.unwrap();

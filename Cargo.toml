@@ -11,6 +11,7 @@ members = [
     "hello_permutation_advanced",
     "hello_progress_bar",
     "hello_self_response",
+    "hello_slice",
     "hello_world",
 ]
 

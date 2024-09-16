@@ -13,9 +13,15 @@ members = [
     "hello_self_response",
     "hello_slice",
     "hello_world",
+    "hello_vulkan_on_ash",
 ]
 
 [workspace.dependencies]
+ash = { version = "0.38.0", default-features = false, features = [
+    "linked",
+    "debug",
+    "std",
+] }
 bytemuck = "*"
 tonic = "0.5"
 tonic-build = "0.5"

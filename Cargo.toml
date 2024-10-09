@@ -14,6 +14,7 @@ members = [
     "hello_slice",
     "hello_world",
     "hello_vulkan_on_ash",
+    "hello_regex",
 ]
 
 [workspace.dependencies]
@@ -27,4 +28,5 @@ tonic = "0.5"
 tonic-build = "0.5"
 tokio = { version = "1", features = ["full"] }
 prost = "0.8.0"
+regex = "*"
 wgpu = { version = "0.11.0", features = ["spirv"] }

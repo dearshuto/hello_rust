@@ -12,6 +12,7 @@ members = [
     "hello_progress_bar",
     "hello_self_response",
     "hello_slice",
+    "hello_tauri/src-tauri",
     "hello_world",
     "hello_vulkan_on_ash",
     "hello_regex",

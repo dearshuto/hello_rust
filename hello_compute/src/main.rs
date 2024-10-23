@@ -1,7 +1,7 @@
 // GPU で等差数列を計算するプログラム
 #[tokio::main]
 async fn main() {
-    let instance = wgpu::Instance::new(wgpu::Backends::PRIMARY);
+    let instance = wgpu::Instance::new(wgpu::InstanceDescriptor::default());
     let adapter = instance
         .request_adapter(&wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::default(),
@@ -15,8 +15,10 @@ async fn main() {
         .request_device(
             &wgpu::DeviceDescriptor {
                 label: None,
-                features: wgpu::Features::empty(),
-                limits: wgpu::Limits::downlevel_defaults().using_resolution(adapter.limits()),
+                required_features: wgpu::Features::empty(),
+                required_limits: wgpu::Limits::downlevel_defaults()
+                    .using_resolution(adapter.limits()),
+                memory_hints: wgpu::MemoryHints::default(),
             },
             None,
         )
@@ -24,7 +26,7 @@ async fn main() {
         .unwrap();
 
     let shader_source = wgpu::util::make_spirv(include_bytes!("write_buffer.spv"));
-    let shader = device.create_shader_module(&wgpu::ShaderModuleDescriptor {
+    let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
         label: None,
         source: shader_source,
     });
@@ -74,30 +76,41 @@ async fn main() {
         layout: Some(&pipeline_layout),
         module: &shader,
         entry_point: "main",
+        compilation_options: wgpu::PipelineCompilationOptions::default(),
+        cache: None,
     });
 
     let mut command_encoder =
         device.create_command_encoder(&wgpu::CommandEncoderDescriptor { label: None });
     {
-        let mut compute_pass =
-            command_encoder.begin_compute_pass(&wgpu::ComputePassDescriptor { label: None });
+        let mut compute_pass = command_encoder.begin_compute_pass(&wgpu::ComputePassDescriptor {
+            label: None,
+            timestamp_writes: None,
+        });
         compute_pass.set_pipeline(&compute_pipeline);
         compute_pass.set_bind_group(0, &bind_group, &[]);
-        compute_pass.dispatch(1, 1, 1);
+        compute_pass.dispatch_workgroups(1, 1, 1);
     }
     queue.submit(Some(command_encoder.finish()));
 
     let buffer_slice = buffer.slice(..);
-    let buffer_future = buffer_slice.map_async(wgpu::MapMode::Read);
+    buffer_slice.map_async(wgpu::MapMode::Read, |_| {});
+
+    buffer
+        .slice(..)
+        .map_async(wgpu::MapMode::Write, move |result| {
+            // if result.is_ok() {
+            //     let mut view = capturable.slice(..).get_mapped_range_mut();
+            //     let floats: &mut [f32] = bytemuck::cast_slice_mut(&mut view);
+            //     floats.fill(42.0);
+            //     drop(view);
+            //     capturable.unmap();
+            // }
+        });
 
     device.poll(wgpu::Maintain::Wait);
-
-    if let Ok(()) = buffer_future.await {
-        let data = buffer_slice.get_mapped_range();
-        let result: std::vec::Vec<i32> = bytemuck::cast_slice(&data).to_vec();
-
-        for index in 0..result.len() {
-            println!("index {}: {}", index, result[index]);
-        }
-    }
+    // let result: std::vec::Vec<i32> = bytemuck::cast_slice(&data).to_vec();
+    // for index in 0..result.len() {
+    //     println!("index {}: {}", index, result[index]);
+    // }
 }

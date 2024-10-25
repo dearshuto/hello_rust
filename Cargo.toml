@@ -8,7 +8,6 @@ members = [
     "hello_factorial",
     "hello_grpc",
     "hello_permutation",
-    "hello_permutation_advanced",
     "hello_progress_bar",
     "hello_self_response",
     "hello_slice",

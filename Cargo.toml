@@ -6,6 +6,7 @@ members = [
     "hello_crossterm",
     "hello_customized_vec",
     "hello_factorial",
+    "hello_file_watcher",
     "hello_grpc",
     "hello_permutation",
     "hello_progress_bar",
@@ -25,6 +26,7 @@ ash = { version = "0.38.0", default-features = false, features = [
     "std",
 ] }
 bytemuck = "*"
+notify = "*"
 tonic = "0.5"
 tonic-build = "0.5"
 tokio = { version = "1", features = ["full"] }

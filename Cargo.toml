@@ -15,6 +15,7 @@ members = [
     "hello_world",
     "hello_vulkan_on_ash",
     "hello_regex",
+    "hello_websocket",
 ]
 
 [workspace.dependencies]
@@ -24,9 +25,15 @@ ash = { version = "0.38.0", default-features = false, features = [
     "std",
 ] }
 bytemuck = "*"
+futures-util = { version = "0.3.28", default-features = false, features = [
+    "sink",
+    "std",
+] }
 tonic = "0.5"
 tonic-build = "0.5"
 tokio = { version = "1", features = ["full"] }
 prost = "0.8.0"
 regex = "*"
+tokio-tungstenite = "0.24"
+web-sys = { version = "0.3", features = ["WebSocket"] }
 wgpu = { version = "22.1.0", features = ["spirv"] }

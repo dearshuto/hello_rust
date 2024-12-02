@@ -1,0 +1,8 @@
+[package]
+name = "hello_rapier"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rapier3d = { version = "0.22", features = ["simd-stable"] }
+kiss3d = "0.35.0"

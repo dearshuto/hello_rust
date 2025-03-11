@@ -6,6 +6,7 @@ members = [
     "hello_crossterm",
     "hello_customized_vec",
     "hello_factorial",
+    "hello_features_select",
     "hello_file_watcher",
     "hello_grpc",
     "hello_permutation",

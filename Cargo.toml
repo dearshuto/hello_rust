@@ -13,6 +13,7 @@ members = [
     "hello_self_response",
     "hello_slice",
     "hello_tauri/src-tauri",
+    "hello_tokio_stream",
     "hello_world",
     "hello_vulkan_on_ash",
     "hello_random",
@@ -32,6 +33,7 @@ notify = "*"
 tonic = "0.5"
 tonic-build = "0.5"
 tokio = { version = "1", features = ["full"] }
+tokio-stream = "*"
 prost = "0.8.0"
 regex = "*"
 winit = { version = "0.30" }

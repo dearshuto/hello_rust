@@ -1,0 +1,8 @@
+[package]
+name = "hello_tokio_stream"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { workspace = true }
+tokio-stream = { workspace = true }

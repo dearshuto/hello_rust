@@ -12,6 +12,7 @@ members = [
     "hello_progress_bar",
     "hello_self_response",
     "hello_slice",
+    "hello_mesh_shader",
     "hello_tauri/src-tauri",
     "hello_world",
     "hello_vulkan_on_ash",
@@ -28,6 +29,7 @@ ash = { version = "0.38.0", default-features = false, features = [
     "std",
 ] }
 bytemuck = "*"
+naga = { version = "25", features = ["glsl-in", "spv-out", "wgsl-out"]}
 notify = "*"
 tonic = "0.5"
 tonic-build = "0.5"

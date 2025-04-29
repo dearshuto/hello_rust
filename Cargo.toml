@@ -8,6 +8,7 @@ members = [
     "hello_factorial",
     "hello_file_watcher",
     "hello_grpc",
+    "hello_metal_interop",
     "hello_permutation",
     "hello_progress_bar",
     "hello_self_response",

@@ -1,0 +1,8 @@
+[package]
+name = "hello_metal_interop"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ash = "*"
+metal = "0.30.0"
